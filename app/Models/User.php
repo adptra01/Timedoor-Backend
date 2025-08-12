@@ -37,7 +37,10 @@ class User extends Authenticatable
      */
     protected function casts(): array
     {
-        return [];
+        return [
+            'name' => 'string',
+            'email' => 'string',
+        ];
     }
 
     public function ratings()

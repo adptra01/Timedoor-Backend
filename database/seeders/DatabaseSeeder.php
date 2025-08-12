@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        set_time_limit(0);
+
         // User::factory(10)->create();
         // Author::factory(10)->create();
         // Book::factory(10)->create();
@@ -26,11 +28,12 @@ class DatabaseSeeder extends Seeder
         // Rating::factory(10)->create();
 
         $this->call([
-            AuthorSeeder::class,      // First, create authors
-            CategorySeeder::class,     // Then categories
-            BookSeeder::class,         // Then books (needs authors)
-            BookCategorySeeder::class, // Then book-category relations (needs books and categories)
-            RatingSeeder::class,       // Finally ratings (needs books and creates users)
+            UserSeeder::class,
+            AuthorSeeder::class,
+            CategorySeeder::class,
+            BookSeeder::class,
+            BookCategorySeeder::class,
+            RatingSeeder::class,
         ]);
 
         User::factory()->create([
