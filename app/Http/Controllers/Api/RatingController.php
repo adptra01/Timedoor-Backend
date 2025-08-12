@@ -24,7 +24,7 @@ class RatingController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Rating::paginate();
+        $models = Rating::latest()->paginate(10);
 
         return RatingResource::collection($models);
     }

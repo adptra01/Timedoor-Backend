@@ -24,7 +24,7 @@ class BookCategoryController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = BookCategory::paginate();
+        $models = BookCategory::latest()->paginate(10);
 
         return BookCategoryResource::collection($models);
     }

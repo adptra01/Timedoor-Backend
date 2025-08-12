@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Book;
+use App\Models\User;
 use App\Models\Rating;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,8 +26,8 @@ class RatingFactory extends Factory
     public function definition(): array
     {
         return [
-            'book_id' => \App\Models\Book::factory(),
-            'user_id' => \App\Models\User::factory(),
+            'book_id' => Book::inRandomOrder()->first()->id ?? \App\Models\Book::factory(),
+            'user_id' => User::inRandomOrder()->first()->id ?? \App\Models\User::factory(),
             'rating' => $this->faker->numberBetween(1, 10),
             'comment' => $this->faker->paragraph(),
         ];

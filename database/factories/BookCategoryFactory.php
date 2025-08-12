@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Book;
+use App\Models\Category;
 use App\Models\BookCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,8 +26,8 @@ class BookCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'book_id' => \App\Models\Book::factory(),
-            'category_id' => \App\Models\Category::factory(),
+            'book_id' => Book::inRandomOrder()->first()->id ?? \App\Models\Book::factory(),
+            'category_id' => Category::inRandomOrder()->first()->id ?? \App\Models\Category::factory(),
         ];
     }
 }

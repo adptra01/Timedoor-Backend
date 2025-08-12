@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Category::paginate();
+        $models = Category::latest()->paginate(10);
 
         return CategoryResource::collection($models);
     }

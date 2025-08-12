@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Book;
+use App\Models\Author;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,7 +27,7 @@ class BookFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(3),
-            'author_id' => \App\Models\Author::factory(),
+            'author_id' => Author::inRandomOrder()->first()->id ?? \App\Models\Author::factory(),
             'description' => $this->faker->paragraph(),
             'published_year' => $this->faker->year(),
             'stock' => $this->faker->numberBetween(0, 100),

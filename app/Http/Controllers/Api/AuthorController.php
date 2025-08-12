@@ -45,7 +45,7 @@ class AuthorController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Author::paginate();
+        $models = Author::latest()->paginate(10);
 
         return AuthorResource::collection($models);
     }
