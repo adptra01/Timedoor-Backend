@@ -82,7 +82,7 @@ Untuk detail skema database yang lebih visual, Anda dapat merujuk pada diagram E
 Jika Anda memiliki file gambar ERD (misalnya `erd.png`), Anda dapat menambahkannya ke direktori proyek dan merujuknya di sini:
 
 ```markdown
-![Entity Relationship Diagram](D:\laragon\www\timedoor-backend\ERD.png)
+![Entity Relationship Diagram](ERD.png)
 ```
 
 ## Instalasi dan Setup
