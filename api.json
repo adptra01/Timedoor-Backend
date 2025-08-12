@@ -3,7 +3,7 @@
     "info": {
         "title": "Dokumentasi API Timedoor Backend",
         "version": "0.0.1",
-        "description": "Dokumentasi API Timedoor Backend. Sistem ini menyediakan layanan manajemen buku, kategori, penulis, rating, dan pengguna. Silakan gunakan endpoint yang tersedia sesuai kebutuhan aplikasi Anda."
+        "description": "Aplikasi ini adalah sistem rating toko buku.\n\n Tujuan utama:\n - Menampilkan daftar buku yang dapat difilter dan diurutkan berdasarkan rating.\n - Menampilkan top 10 penulis terpopuler berdasarkan jumlah voter (rating > 5).\n - Memungkinkan pengguna untuk memberi rating pada buku.\n\n Fitur Utama:\n 1. Daftar Buku dengan Filter:\n    - Tampilan Default: 10 buku teratas berdasarkan avg_rating tertinggi.\n    - Filter Jumlah Data: Dropdown untuk menampilkan 10, 20, 30, atau 100 item per halaman.\n    - Pencarian: Input untuk mencari buku berdasarkan judul atau nama penulis.\n    - Pengurutan: Berdasarkan rata-rata rating tertinggi.\n    - Data yang Ditampilkan: Judul buku, Penulis, Rata-rata rating, Jumlah voter, Tahun terbit.\n 2. Top 10 Penulis Terpopuler:\n    - Berdasarkan jumlah voter yang memberi rating di atas 5.\n    - Diurutkan secara descending berdasarkan jumlah voter.\n    - Data yang Ditampilkan: Nama penulis, Jumlah voter, Rata-rata rating bukunya.\n 3. Input Rating:\n    - Dropdown untuk memilih buku (dapat difilter berdasarkan penulis).\n    - Dropdown untuk memilih rating (1 \u2013 10).\n    - Textarea untuk komentar (opsional).\n    - Validasi: Rating harus angka 1-10 dan buku harus valid.\n    - Setelah submit, akan redirect kembali ke Daftar Buku.\n\n Contoh Penggunaan API:\n - GET /api/v1/books\n - GET /api/v1/books/{id}\n - GET /api/v1/authors\n - GET /api/v1/authors/top (untuk 10 penulis teratas)\n - POST /api/v1/ratings"
     },
     "servers": [
         {
@@ -12,6 +12,31 @@
         }
     ],
     "paths": {
+        "/v1/authors/top": {
+            "get": {
+                "operationId": "author.top",
+                "description": "Mengambil daftar 10 penulis teratas berdasarkan jumlah rating di atas 5.",
+                "summary": "Dapatkan 10 Penulis Teratas",
+                "tags": [
+                    "Author"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "integer",
+                                    "enum": [
+                                        200
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/authors": {
             "get": {
                 "operationId": "authors.index",
@@ -22,133 +47,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `AuthorResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/AuthorResource"
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object",
-                                            "properties": {
-                                                "current_page": {
-                                                    "type": "integer"
-                                                },
-                                                "from": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last_page": {
-                                                    "type": "integer"
-                                                },
-                                                "links": {
-                                                    "type": "array",
-                                                    "description": "Generated paginator links.",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "url": {
-                                                                "type": [
-                                                                    "string",
-                                                                    "null"
-                                                                ]
-                                                            },
-                                                            "label": {
-                                                                "type": "string"
-                                                            },
-                                                            "active": {
-                                                                "type": "boolean"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "url",
-                                                            "label",
-                                                            "active"
-                                                        ]
-                                                    }
-                                                },
-                                                "path": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ],
-                                                    "description": "Base path for paginator generated URLs."
-                                                },
-                                                "per_page": {
-                                                    "type": "integer",
-                                                    "description": "Number of items shown per page."
-                                                },
-                                                "to": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ],
-                                                    "description": "Number of the last item in the slice."
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "description": "Total number of items being paginated."
-                                                }
-                                            },
-                                            "required": [
-                                                "current_page",
-                                                "from",
-                                                "last_page",
-                                                "links",
-                                                "path",
-                                                "per_page",
-                                                "to",
-                                                "total"
-                                            ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "data",
-                                        "links",
-                                        "meta"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -175,18 +80,13 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`AuthorResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/AuthorResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -211,29 +111,28 @@
                         "name": "author",
                         "in": "path",
                         "required": true,
+                        "description": "The author ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`AuthorResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/AuthorResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             },
@@ -249,8 +148,9 @@
                         "name": "author",
                         "in": "path",
                         "required": true,
+                        "description": "The author ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -265,22 +165,20 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`AuthorResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/AuthorResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
@@ -299,25 +197,11 @@
                         "name": "author",
                         "in": "path",
                         "required": true,
+                        "description": "The author ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No content"
-                    }
-                }
-            }
-        },
-        "/authors/top": {
-            "get": {
-                "operationId": "author.top",
-                "description": "Mengambil daftar 10 penulis teratas berdasarkan jumlah rating di atas 5.",
-                "summary": "Dapatkan 10 Penulis Teratas",
-                "tags": [
-                    "Author"
                 ],
                 "responses": {
                     "200": {
@@ -325,10 +209,16 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "integer",
+                                    "enum": [
+                                        204
+                                    ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             }
@@ -343,133 +233,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `BookResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/BookResource"
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object",
-                                            "properties": {
-                                                "current_page": {
-                                                    "type": "integer"
-                                                },
-                                                "from": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last_page": {
-                                                    "type": "integer"
-                                                },
-                                                "links": {
-                                                    "type": "array",
-                                                    "description": "Generated paginator links.",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "url": {
-                                                                "type": [
-                                                                    "string",
-                                                                    "null"
-                                                                ]
-                                                            },
-                                                            "label": {
-                                                                "type": "string"
-                                                            },
-                                                            "active": {
-                                                                "type": "boolean"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "url",
-                                                            "label",
-                                                            "active"
-                                                        ]
-                                                    }
-                                                },
-                                                "path": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ],
-                                                    "description": "Base path for paginator generated URLs."
-                                                },
-                                                "per_page": {
-                                                    "type": "integer",
-                                                    "description": "Number of items shown per page."
-                                                },
-                                                "to": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ],
-                                                    "description": "Number of the last item in the slice."
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "description": "Total number of items being paginated."
-                                                }
-                                            },
-                                            "required": [
-                                                "current_page",
-                                                "from",
-                                                "last_page",
-                                                "links",
-                                                "path",
-                                                "per_page",
-                                                "to",
-                                                "total"
-                                            ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "data",
-                                        "links",
-                                        "meta"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -496,18 +266,13 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`BookResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/BookResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -532,29 +297,28 @@
                         "name": "book",
                         "in": "path",
                         "required": true,
+                        "description": "The book ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`BookResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/BookResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             },
@@ -570,8 +334,9 @@
                         "name": "book",
                         "in": "path",
                         "required": true,
+                        "description": "The book ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -586,22 +351,20 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`BookResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/BookResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
@@ -620,14 +383,28 @@
                         "name": "book",
                         "in": "path",
                         "required": true,
+                        "description": "The book ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No content"
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "integer",
+                                    "enum": [
+                                        204
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             }
@@ -642,133 +419,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `BookCategoryResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/BookCategoryResource"
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object",
-                                            "properties": {
-                                                "current_page": {
-                                                    "type": "integer"
-                                                },
-                                                "from": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last_page": {
-                                                    "type": "integer"
-                                                },
-                                                "links": {
-                                                    "type": "array",
-                                                    "description": "Generated paginator links.",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "url": {
-                                                                "type": [
-                                                                    "string",
-                                                                    "null"
-                                                                ]
-                                                            },
-                                                            "label": {
-                                                                "type": "string"
-                                                            },
-                                                            "active": {
-                                                                "type": "boolean"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "url",
-                                                            "label",
-                                                            "active"
-                                                        ]
-                                                    }
-                                                },
-                                                "path": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ],
-                                                    "description": "Base path for paginator generated URLs."
-                                                },
-                                                "per_page": {
-                                                    "type": "integer",
-                                                    "description": "Number of items shown per page."
-                                                },
-                                                "to": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ],
-                                                    "description": "Number of the last item in the slice."
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "description": "Total number of items being paginated."
-                                                }
-                                            },
-                                            "required": [
-                                                "current_page",
-                                                "from",
-                                                "last_page",
-                                                "links",
-                                                "path",
-                                                "per_page",
-                                                "to",
-                                                "total"
-                                            ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "data",
-                                        "links",
-                                        "meta"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -795,18 +452,13 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`BookCategoryResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/BookCategoryResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -818,7 +470,7 @@
                 }
             }
         },
-        "/v1/book-categories/{book_category}": {
+        "/v1/book-categories/{bookCategory}": {
             "get": {
                 "operationId": "book-categories.show",
                 "description": "Mengambil detail kategori buku tertentu berdasarkan ID.",
@@ -828,32 +480,31 @@
                 ],
                 "parameters": [
                     {
-                        "name": "book_category",
+                        "name": "bookCategory",
                         "in": "path",
                         "required": true,
+                        "description": "The book category ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`BookCategoryResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/BookCategoryResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             },
@@ -866,11 +517,12 @@
                 ],
                 "parameters": [
                     {
-                        "name": "book_category",
+                        "name": "bookCategory",
                         "in": "path",
                         "required": true,
+                        "description": "The book category ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -885,22 +537,20 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`BookCategoryResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/BookCategoryResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
@@ -916,17 +566,31 @@
                 ],
                 "parameters": [
                     {
-                        "name": "book_category",
+                        "name": "bookCategory",
                         "in": "path",
                         "required": true,
+                        "description": "The book category ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No content"
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "integer",
+                                    "enum": [
+                                        204
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             }
@@ -941,133 +605,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `CategoryResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/CategoryResource"
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object",
-                                            "properties": {
-                                                "current_page": {
-                                                    "type": "integer"
-                                                },
-                                                "from": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last_page": {
-                                                    "type": "integer"
-                                                },
-                                                "links": {
-                                                    "type": "array",
-                                                    "description": "Generated paginator links.",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "url": {
-                                                                "type": [
-                                                                    "string",
-                                                                    "null"
-                                                                ]
-                                                            },
-                                                            "label": {
-                                                                "type": "string"
-                                                            },
-                                                            "active": {
-                                                                "type": "boolean"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "url",
-                                                            "label",
-                                                            "active"
-                                                        ]
-                                                    }
-                                                },
-                                                "path": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ],
-                                                    "description": "Base path for paginator generated URLs."
-                                                },
-                                                "per_page": {
-                                                    "type": "integer",
-                                                    "description": "Number of items shown per page."
-                                                },
-                                                "to": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ],
-                                                    "description": "Number of the last item in the slice."
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "description": "Total number of items being paginated."
-                                                }
-                                            },
-                                            "required": [
-                                                "current_page",
-                                                "from",
-                                                "last_page",
-                                                "links",
-                                                "path",
-                                                "per_page",
-                                                "to",
-                                                "total"
-                                            ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "data",
-                                        "links",
-                                        "meta"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -1094,18 +638,13 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`CategoryResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/CategoryResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -1130,29 +669,28 @@
                         "name": "category",
                         "in": "path",
                         "required": true,
+                        "description": "The category ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`CategoryResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/CategoryResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             },
@@ -1168,8 +706,9 @@
                         "name": "category",
                         "in": "path",
                         "required": true,
+                        "description": "The category ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -1184,22 +723,20 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`CategoryResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/CategoryResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
@@ -1218,14 +755,28 @@
                         "name": "category",
                         "in": "path",
                         "required": true,
+                        "description": "The category ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No content"
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "integer",
+                                    "enum": [
+                                        204
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             }
@@ -1240,133 +791,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `RatingResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/RatingResource"
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object",
-                                            "properties": {
-                                                "current_page": {
-                                                    "type": "integer"
-                                                },
-                                                "from": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last_page": {
-                                                    "type": "integer"
-                                                },
-                                                "links": {
-                                                    "type": "array",
-                                                    "description": "Generated paginator links.",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "url": {
-                                                                "type": [
-                                                                    "string",
-                                                                    "null"
-                                                                ]
-                                                            },
-                                                            "label": {
-                                                                "type": "string"
-                                                            },
-                                                            "active": {
-                                                                "type": "boolean"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "url",
-                                                            "label",
-                                                            "active"
-                                                        ]
-                                                    }
-                                                },
-                                                "path": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ],
-                                                    "description": "Base path for paginator generated URLs."
-                                                },
-                                                "per_page": {
-                                                    "type": "integer",
-                                                    "description": "Number of items shown per page."
-                                                },
-                                                "to": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ],
-                                                    "description": "Number of the last item in the slice."
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "description": "Total number of items being paginated."
-                                                }
-                                            },
-                                            "required": [
-                                                "current_page",
-                                                "from",
-                                                "last_page",
-                                                "links",
-                                                "path",
-                                                "per_page",
-                                                "to",
-                                                "total"
-                                            ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "data",
-                                        "links",
-                                        "meta"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -1393,18 +824,13 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`RatingResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/RatingResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -1429,29 +855,28 @@
                         "name": "rating",
                         "in": "path",
                         "required": true,
+                        "description": "The rating ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`RatingResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/RatingResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             },
@@ -1467,8 +892,9 @@
                         "name": "rating",
                         "in": "path",
                         "required": true,
+                        "description": "The rating ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -1483,22 +909,20 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`RatingResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/RatingResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
@@ -1517,14 +941,28 @@
                         "name": "rating",
                         "in": "path",
                         "required": true,
+                        "description": "The rating ID",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No content"
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "integer",
+                                    "enum": [
+                                        204
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
                     }
                 }
             }
@@ -1539,133 +977,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `UserResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/UserResource"
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object",
-                                            "properties": {
-                                                "current_page": {
-                                                    "type": "integer"
-                                                },
-                                                "from": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last_page": {
-                                                    "type": "integer"
-                                                },
-                                                "links": {
-                                                    "type": "array",
-                                                    "description": "Generated paginator links.",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "url": {
-                                                                "type": [
-                                                                    "string",
-                                                                    "null"
-                                                                ]
-                                                            },
-                                                            "label": {
-                                                                "type": "string"
-                                                            },
-                                                            "active": {
-                                                                "type": "boolean"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "url",
-                                                            "label",
-                                                            "active"
-                                                        ]
-                                                    }
-                                                },
-                                                "path": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ],
-                                                    "description": "Base path for paginator generated URLs."
-                                                },
-                                                "per_page": {
-                                                    "type": "integer",
-                                                    "description": "Number of items shown per page."
-                                                },
-                                                "to": {
-                                                    "type": [
-                                                        "integer",
-                                                        "null"
-                                                    ],
-                                                    "description": "Number of the last item in the slice."
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "description": "Total number of items being paginated."
-                                                }
-                                            },
-                                            "required": [
-                                                "current_page",
-                                                "from",
-                                                "last_page",
-                                                "links",
-                                                "path",
-                                                "per_page",
-                                                "to",
-                                                "total"
-                                            ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "data",
-                                        "links",
-                                        "meta"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -1692,18 +1010,13 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`UserResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/UserResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -1736,18 +1049,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`UserResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/UserResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -1787,18 +1095,13 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`UserResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/UserResource"
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
+                                    "type": "integer",
+                                    "enum": [
+                                        200
                                     ]
                                 }
                             }
@@ -1831,8 +1134,18 @@
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No content"
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "integer",
+                                    "enum": [
+                                        204
+                                    ]
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "$ref": "#/components/responses/ModelNotFoundException"
@@ -1843,221 +1156,6 @@
     },
     "components": {
         "schemas": {
-            "AuthorResource": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "bio": {
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "id",
-                    "name",
-                    "bio",
-                    "created_at",
-                    "updated_at"
-                ],
-                "title": "AuthorResource"
-            },
-            "BookCategoryResource": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "book_id": {
-                        "type": "integer"
-                    },
-                    "category_id": {
-                        "type": "integer"
-                    },
-                    "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "id",
-                    "book_id",
-                    "category_id",
-                    "created_at",
-                    "updated_at"
-                ],
-                "title": "BookCategoryResource"
-            },
-            "BookResource": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "author_id": {
-                        "type": "integer"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "published_year": {
-                        "type": "integer"
-                    },
-                    "stock": {
-                        "type": "integer"
-                    },
-                    "price": {
-                        "type": "string"
-                    },
-                    "avg_rating": {
-                        "type": "number"
-                    },
-                    "voters_count": {
-                        "type": "integer"
-                    },
-                    "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "id",
-                    "title",
-                    "author_id",
-                    "description",
-                    "published_year",
-                    "stock",
-                    "price",
-                    "avg_rating",
-                    "voters_count",
-                    "created_at",
-                    "updated_at"
-                ],
-                "title": "BookResource"
-            },
-            "CategoryResource": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "id",
-                    "name",
-                    "description",
-                    "created_at",
-                    "updated_at"
-                ],
-                "title": "CategoryResource"
-            },
-            "RatingResource": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "book_id": {
-                        "type": "integer"
-                    },
-                    "user_id": {
-                        "type": "integer"
-                    },
-                    "rating": {
-                        "type": "integer"
-                    },
-                    "comment": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
-                    },
-                    "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "id",
-                    "book_id",
-                    "user_id",
-                    "rating",
-                    "comment",
-                    "created_at",
-                    "updated_at"
-                ],
-                "title": "RatingResource"
-            },
             "StoreAuthorRequest": {
                 "type": "object",
                 "description": "StoreAuthorRequest\nGenerated by ModelSchema Enterprise Fragment Architecture",
@@ -2068,7 +1166,7 @@
                     },
                     "bio": {
                         "type": "string",
-                        "maxLength": 65
+                        "maxLength": 65535
                     }
                 },
                 "required": [
@@ -2117,12 +1215,6 @@
                     },
                     "price": {
                         "type": "number"
-                    },
-                    "avg_rating": {
-                        "type": "number"
-                    },
-                    "voters_count": {
-                        "type": "integer"
                     }
                 },
                 "required": [
@@ -2253,12 +1345,6 @@
                     },
                     "price": {
                         "type": "number"
-                    },
-                    "avg_rating": {
-                        "type": "number"
-                    },
-                    "voters_count": {
-                        "type": "integer"
                     }
                 },
                 "title": "UpdateBookRequest"
@@ -2316,42 +1402,6 @@
                     }
                 },
                 "title": "UpdateUserRequest"
-            },
-            "UserResource": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "id",
-                    "name",
-                    "email",
-                    "created_at",
-                    "updated_at"
-                ],
-                "title": "UserResource"
             }
         },
         "responses": {

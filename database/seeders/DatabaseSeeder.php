@@ -7,7 +7,6 @@ use App\Models\Book;
 use App\Models\BookCategory;
 use App\Models\Category;
 use App\Models\Rating;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 

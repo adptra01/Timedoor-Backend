@@ -29,7 +29,37 @@ return [
         /*
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
-        'description' => 'Dokumentasi API Timedoor Backend. Sistem ini menyediakan layanan manajemen buku, kategori, penulis, rating, dan pengguna. Silakan gunakan endpoint yang tersedia sesuai kebutuhan aplikasi Anda.',
+        'description' => 'Aplikasi ini adalah sistem rating toko buku.
+
+ Tujuan utama:
+ - Menampilkan daftar buku yang dapat difilter dan diurutkan berdasarkan rating.
+ - Menampilkan top 10 penulis terpopuler berdasarkan jumlah voter (rating > 5).
+ - Memungkinkan pengguna untuk memberi rating pada buku.
+
+ Fitur Utama:
+ 1. Daftar Buku dengan Filter:
+    - Tampilan Default: 10 buku teratas berdasarkan avg_rating tertinggi.
+    - Filter Jumlah Data: Dropdown untuk menampilkan 10, 20, 30, atau 100 item per halaman.
+    - Pencarian: Input untuk mencari buku berdasarkan judul atau nama penulis.
+    - Pengurutan: Berdasarkan rata-rata rating tertinggi.
+    - Data yang Ditampilkan: Judul buku, Penulis, Rata-rata rating, Jumlah voter, Tahun terbit.
+ 2. Top 10 Penulis Terpopuler:
+    - Berdasarkan jumlah voter yang memberi rating di atas 5.
+    - Diurutkan secara descending berdasarkan jumlah voter.
+    - Data yang Ditampilkan: Nama penulis, Jumlah voter, Rata-rata rating bukunya.
+ 3. Input Rating:
+    - Dropdown untuk memilih buku (dapat difilter berdasarkan penulis).
+    - Dropdown untuk memilih rating (1 – 10).
+    - Textarea untuk komentar (opsional).
+    - Validasi: Rating harus angka 1-10 dan buku harus valid.
+    - Setelah submit, akan redirect kembali ke Daftar Buku.
+
+ Contoh Penggunaan API:
+ - GET /api/v1/books
+ - GET /api/v1/books/{id}
+ - GET /api/v1/authors
+ - GET /api/v1/authors/top (untuk 10 penulis teratas)
+ - POST /api/v1/ratings',
     ],
 
     /*
