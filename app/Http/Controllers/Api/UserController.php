@@ -14,13 +14,13 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class UserController extends Controller
 {
     /**
-     * Dapatkan Semua Pengguna
+     * Dapatkan Semua Pengguna (Terpaginasi)
      *
-     * Mengambil daftar pengguna yang sudah dipaginasi.
+     * Mengambil daftar pengguna yang sudah dipaginasi, dengan 10 item per halaman.
      */
     public function index(): AnonymousResourceCollection
     {
-        $users = User::latest()->paginate(10);
+        $users = User::paginate(10);
 
         return UserResource::collection($users);
     }

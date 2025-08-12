@@ -18,13 +18,13 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class RatingController extends Controller
 {
     /**
-     * Dapatkan Semua Rating
+     * Dapatkan Semua Rating (Terpaginasi)
      *
-     * Mengambil daftar rating yang sudah dipaginasi.
+     * Mengambil daftar rating yang sudah dipaginasi, dengan 10 item per halaman.
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Rating::latest()->paginate(10);
+        $models = Rating::paginate(10);
 
         return RatingResource::collection($models);
     }

@@ -18,13 +18,13 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class CategoryController extends Controller
 {
     /**
-     * Dapatkan Semua Kategori
+     * Dapatkan Semua Kategori (Terpaginasi)
      *
-     * Mengambil daftar kategori yang sudah dipaginasi.
+     * Mengambil daftar kategori yang sudah dipaginasi, dengan 10 item per halaman.
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Category::latest()->paginate(10);
+        $models = Category::paginate(10);
 
         return CategoryResource::collection($models);
     }

@@ -18,13 +18,13 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class BookController extends Controller
 {
     /**
-     * Dapatkan Semua Buku
+     * Dapatkan Semua Buku (Terpaginasi)
      *
-     * Mengambil daftar buku yang sudah dipaginasi.
+     * Mengambil daftar buku yang sudah dipaginasi, dengan 10 item per halaman.
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Book::latest()->paginate(10);
+        $models = Book::paginate(10);
 
         return BookResource::collection($models);
     }

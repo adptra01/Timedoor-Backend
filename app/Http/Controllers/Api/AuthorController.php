@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\DB;
 class AuthorController extends Controller
 {
     /**
-     * Get Top 10 Authors
+     * Dapatkan 10 Penulis Teratas
      *
-     * Retrieves a list of the top 10 authors based on the number of ratings greater than 5.
+     * Mengambil daftar 10 penulis teratas berdasarkan jumlah rating di atas 5.
      */
     public function top()
     {
@@ -39,21 +39,21 @@ class AuthorController extends Controller
     }
 
     /**
-     * Get All Authors
+     * Dapatkan Semua Penulis (Terpaginasi)
      *
-     * Retrieves a paginated list of all authors.
+     * Mengambil daftar penulis yang sudah dipaginasi, dengan 10 item per halaman.
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Author::latest()->paginate(10);
+        $models = Author::paginate(10);
 
         return AuthorResource::collection($models);
     }
 
     /**
-     * Create New Author
+     * Buat Penulis Baru
      *
-     * Stores a newly created author in the database.
+     * Menyimpan penulis yang baru dibuat ke dalam database.
      */
     public function store(StoreAuthorRequest $request): AuthorResource
     {
@@ -63,9 +63,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Get Author Details
+     * Dapatkan Detail Penulis
      *
-     * Retrieves the details of a specific author by ID.
+     * Mengambil detail penulis tertentu berdasarkan ID.
      */
     public function show(Author $model): AuthorResource
     {
@@ -73,9 +73,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Update Author
+     * Perbarui Penulis
      *
-     * Updates the details of a specific author by ID.
+     * Memperbarui detail penulis tertentu berdasarkan ID.
      */
     public function update(UpdateAuthorRequest $request, Author $model): AuthorResource
     {
@@ -85,9 +85,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Delete Author
+     * Hapus Penulis
      *
-     * Deletes a specific author by ID.
+     * Menghapus penulis tertentu berdasarkan ID.
      */
     public function destroy(Author $model): \Illuminate\Http\Response
     {

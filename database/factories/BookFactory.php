@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Book;
 use App\Models\Author;
-use Illuminate\Container\Attributes\Auth;
+use App\Models\Book;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
