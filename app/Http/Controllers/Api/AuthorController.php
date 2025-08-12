@@ -26,7 +26,12 @@ class AuthorController extends Controller
     public function top()
     {
         $authors = DB::table('authors')
-            ->select('authors.id', 'authors.name', DB::raw('COUNT(ratings.id) AS voters'))
+            ->select(
+                'authors.id',
+                'authors.name',
+                DB::raw('COUNT(ratings.id) AS voters'),
+                DB::raw('AVG(ratings.rating) AS avg_author_rating') // Menambahkan perhitungan rata-rata rating
+            )
             ->join('books', 'books.author_id', '=', 'authors.id')
             ->join('ratings', 'ratings.book_id', '=', 'books.id')
             ->where('ratings.rating', '>', 5)

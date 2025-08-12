@@ -32,8 +32,8 @@ class UpdateBookRequest extends FormRequest
             'published_year' => ['sometimes', 'integer', 'digits:4'],
             'stock' => ['sometimes', 'integer'],
             'price' => ['sometimes', 'numeric'],
-            'avg_rating' => ['sometimes', 'numeric'],
-            'voters_count' => ['sometimes', 'integer'],
+            // 'avg_rating' => ['sometimes', 'numeric'],
+            // 'voters_count' => ['sometimes', 'integer'],
         ];
     }
 }

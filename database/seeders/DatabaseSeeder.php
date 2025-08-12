@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             BookSeeder::class,
             BookCategorySeeder::class,
             RatingSeeder::class,
+            BookRatingRecalculatorSeeder::class,
         ]);
 
         User::factory()->create([

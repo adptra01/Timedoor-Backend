@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('published_year');
             $table->integer('stock');
             $table->decimal('price', 10, 2);
-            $table->double('avg_rating');
+            $table->double('avg_rating')->default(0);
             $table->integer('voters_count')->default(0);
             $table->timestamps();
         });

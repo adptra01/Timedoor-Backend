@@ -32,8 +32,8 @@ class StoreBookRequest extends FormRequest
             'published_year' => ['required', 'integer', 'digits:4'],
             'stock' => ['required', 'integer'],
             'price' => ['required', 'numeric'],
-            'avg_rating' => ['numeric'],
-            'voters_count' => ['integer'],
+            // 'avg_rating' => ['numeric'],
+            // 'voters_count' => ['integer'],
         ];
     }
 }
