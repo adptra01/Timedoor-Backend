@@ -18,7 +18,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class RatingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Dapatkan Semua Rating
+     *
+     * Mengambil daftar rating yang sudah dipaginasi.
      */
     public function index(): AnonymousResourceCollection
     {
@@ -28,7 +30,9 @@ class RatingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Buat Rating Baru
+     *
+     * Menyimpan rating yang baru dibuat ke dalam database.
      */
     public function store(StoreRatingRequest $request): RatingResource
     {
@@ -38,7 +42,9 @@ class RatingController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Dapatkan Detail Rating
+     *
+     * Mengambil detail rating tertentu berdasarkan ID.
      */
     public function show(Rating $model): RatingResource
     {
@@ -46,7 +52,9 @@ class RatingController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Perbarui Rating
+     *
+     * Memperbarui detail rating tertentu berdasarkan ID.
      */
     public function update(UpdateRatingRequest $request, Rating $model): RatingResource
     {
@@ -56,7 +64,9 @@ class RatingController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus Rating
+     *
+     * Menghapus rating tertentu berdasarkan ID.
      */
     public function destroy(Rating $model): \Illuminate\Http\Response
     {

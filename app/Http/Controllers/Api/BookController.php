@@ -18,7 +18,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class BookController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Dapatkan Semua Buku
+     *
+     * Mengambil daftar buku yang sudah dipaginasi.
      */
     public function index(): AnonymousResourceCollection
     {
@@ -28,7 +30,9 @@ class BookController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Buat Buku Baru
+     *
+     * Menyimpan buku yang baru dibuat ke dalam database.
      */
     public function store(StoreBookRequest $request): BookResource
     {
@@ -38,7 +42,9 @@ class BookController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Dapatkan Detail Buku
+     *
+     * Mengambil detail buku tertentu berdasarkan ID.
      */
     public function show(Book $model): BookResource
     {
@@ -46,7 +52,9 @@ class BookController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Perbarui Buku
+     *
+     * Memperbarui detail buku tertentu berdasarkan ID.
      */
     public function update(UpdateBookRequest $request, Book $model): BookResource
     {
@@ -56,7 +64,9 @@ class BookController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus Buku
+     *
+     * Menghapus buku tertentu berdasarkan ID.
      */
     public function destroy(Book $model): \Illuminate\Http\Response
     {

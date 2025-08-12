@@ -18,7 +18,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Dapatkan Semua Kategori
+     *
+     * Mengambil daftar kategori yang sudah dipaginasi.
      */
     public function index(): AnonymousResourceCollection
     {
@@ -28,7 +30,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Buat Kategori Baru
+     *
+     * Menyimpan kategori yang baru dibuat ke dalam database.
      */
     public function store(StoreCategoryRequest $request): CategoryResource
     {
@@ -38,7 +42,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Dapatkan Detail Kategori
+     *
+     * Mengambil detail kategori tertentu berdasarkan ID.
      */
     public function show(Category $model): CategoryResource
     {
@@ -46,7 +52,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Perbarui Kategori
+     *
+     * Memperbarui detail kategori tertentu berdasarkan ID.
      */
     public function update(UpdateCategoryRequest $request, Category $model): CategoryResource
     {
@@ -56,7 +64,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus Kategori
+     *
+     * Menghapus kategori tertentu berdasarkan ID.
      */
     public function destroy(Category $model): \Illuminate\Http\Response
     {

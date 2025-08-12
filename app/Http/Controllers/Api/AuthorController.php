@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\DB;
 class AuthorController extends Controller
 {
     /**
-     * Display a listing of the top 10 authors.
+     * Get Top 10 Authors
+     *
+     * Retrieves a list of the top 10 authors based on the number of ratings greater than 5.
      */
     public function top()
     {
@@ -37,7 +39,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Get All Authors
+     *
+     * Retrieves a paginated list of all authors.
      */
     public function index(): AnonymousResourceCollection
     {
@@ -47,7 +51,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create New Author
+     *
+     * Stores a newly created author in the database.
      */
     public function store(StoreAuthorRequest $request): AuthorResource
     {
@@ -57,7 +63,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get Author Details
+     *
+     * Retrieves the details of a specific author by ID.
      */
     public function show(Author $model): AuthorResource
     {
@@ -65,7 +73,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Author
+     *
+     * Updates the details of a specific author by ID.
      */
     public function update(UpdateAuthorRequest $request, Author $model): AuthorResource
     {
@@ -75,7 +85,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Author
+     *
+     * Deletes a specific author by ID.
      */
     public function destroy(Author $model): \Illuminate\Http\Response
     {

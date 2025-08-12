@@ -18,7 +18,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class BookCategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Dapatkan Semua Kategori Buku
+     *
+     * Mengambil daftar kategori buku yang sudah dipaginasi.
      */
     public function index(): AnonymousResourceCollection
     {
@@ -28,7 +30,9 @@ class BookCategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Buat Kategori Buku Baru
+     *
+     * Menyimpan kategori buku yang baru dibuat ke dalam database.
      */
     public function store(StoreBookCategoryRequest $request): BookCategoryResource
     {
@@ -38,7 +42,9 @@ class BookCategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Dapatkan Detail Kategori Buku
+     *
+     * Mengambil detail kategori buku tertentu berdasarkan ID.
      */
     public function show(BookCategory $model): BookCategoryResource
     {
@@ -46,7 +52,9 @@ class BookCategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Perbarui Kategori Buku
+     *
+     * Memperbarui detail kategori buku tertentu berdasarkan ID.
      */
     public function update(UpdateBookCategoryRequest $request, BookCategory $model): BookCategoryResource
     {
@@ -56,7 +64,9 @@ class BookCategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus Kategori Buku
+     *
+     * Menghapus kategori buku tertentu berdasarkan ID.
      */
     public function destroy(BookCategory $model): \Illuminate\Http\Response
     {
