@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreBookCategoryRequest;
-use App\Http\Requests\UpdateBookCategoryRequest;
+use App\Http\Requests\BookCategory\StoreBookCategoryRequest;
+use App\Http\Requests\BookCategory\UpdateBookCategoryRequest;
 use App\Http\Resources\BookCategoryResource;
 use App\Models\BookCategory;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;

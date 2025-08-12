@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserStoreRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
@@ -19,12 +20,9 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function store(Request $request): UserResource
+    public function store(UserStoreRequest $request): UserResource
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        ]);
+        $validated = $request->validated();
 
         $user = User::create($validated);
 
@@ -36,12 +34,9 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function update(Request $request, User $user): UserResource
+    public function update(UserUpdateRequest $request, User $user): UserResource
     {
-        $validated = $request->validate([
-            'name' => ['sometimes', 'string', 'max:255'],
-            'email' => ['sometimes', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
-        ]);
+        $validated = $request->validated();
 
         $user->update($validated);
 
