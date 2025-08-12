@@ -1,62 +1,164 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Bookstore Rating System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ini adalah aplikasi backend untuk sistem rating toko buku, dibangun sebagai bagian dari Timedoor Backend Programming Exam.
 
-## About Laravel
+## Gambaran Umum Proyek
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Aplikasi ini bertujuan untuk:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Menampilkan daftar buku yang dapat difilter dan diurutkan berdasarkan rating.
+- Menampilkan top 10 penulis terpopuler berdasarkan jumlah voter (rating > 5).
+- Memungkinkan pengguna untuk memberi rating pada buku.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Teknologi yang Digunakan
 
-## Learning Laravel
+- **Backend:** PHP 8.3+, Laravel 12.x
+- **Database:** MySQL
+- **Seeder:** Laravel Seeder dengan Faker untuk generate data dalam jumlah besar.
+- **Frontend:** Blade Template sederhana (untuk tampilan dasar, jika ada).
+- **Version Control:** GitHub Public Repo (asumsi).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Fitur Utama
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Daftar Buku dengan Filter
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Tampilan Default:** 10 buku teratas berdasarkan `avg_rating` tertinggi.
+- **Filter Jumlah Data:** Dropdown untuk menampilkan 10, 20, 30, atau 100 item per halaman.
+- **Pencarian:** Input untuk mencari buku berdasarkan judul atau nama penulis.
+- **Pengurutan:** Berdasarkan rata-rata rating tertinggi.
+- **Data yang Ditampilkan:** Judul buku, Penulis, Rata-rata rating, Jumlah voter, Tahun terbit.
 
-## Laravel Sponsors
+### 2. Top 10 Penulis Terpopuler
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Berdasarkan jumlah voter yang memberi rating di atas 5.
+- Diurutkan secara descending berdasarkan jumlah voter.
+- **Data yang Ditampilkan:** Nama penulis, Jumlah voter, Rata-rata rating bukunya.
 
-### Premium Partners
+### 3. Input Rating
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Dropdown untuk memilih buku (dapat difilter berdasarkan penulis).
+- Dropdown untuk memilih rating (1 – 10).
+- Textarea untuk komentar (opsional).
+- **Validasi:** Rating harus angka 1-10 dan buku harus valid.
+- Setelah submit, akan redirect kembali ke Daftar Buku.
 
-## Contributing
+## Struktur Proyek
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Berikut adalah gambaran singkat tentang struktur direktori dan komponen utama dalam proyek ini:
 
-## Code of Conduct
+- `app/`: Berisi kode inti aplikasi, termasuk model Eloquent, HTTP controllers, requests, resources, dan service providers.
+  - `app/Http/Controllers/Api/`: Berisi controller untuk menangani permintaan API.
+  - `app/Http/Requests/`: Berisi custom form requests untuk validasi input.
+  - `app/Http/Resources/`: Berisi API resources untuk transformasi data respons.
+  - `app/Models/`: Berisi definisi model Eloquent untuk interaksi database.
+  - `app/Providers/`: Berisi service providers untuk bootstrapping layanan aplikasi.
+- `bootstrap/`: Berisi file bootstrapping framework.
+- `config/`: Berisi semua file konfigurasi aplikasi.
+- `database/`: Berisi migrasi database, factory, dan seeder.
+  - `database/factories/`: Berisi definisi factory untuk membuat data dummy.
+  - `database/migrations/`: Berisi definisi skema database.
+  - `database/seeders/`: Berisi kelas seeder untuk mengisi database dengan data.
+- `public/`: Direktori root web yang berisi `index.php` dan aset publik.
+- `resources/`: Berisi aset frontend seperti CSS, JavaScript, dan view Blade.
+- `routes/`: Berisi semua definisi rute aplikasi (web, api, console).
+  - `routes/api.php`: Berisi definisi rute untuk API.
+- `storage/`: Berisi file yang dihasilkan oleh framework seperti log, cache, dan file yang diunggah.
+- `tests/`: Berisi pengujian unit dan fitur aplikasi.
+- `vendor/`: Berisi dependensi Composer.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Struktur Database (Ringkasan)
 
-## Security Vulnerabilities
+Aplikasi ini menggunakan beberapa tabel utama:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- `users`: Informasi pengguna.
+- `authors`: Informasi penulis.
+- `categories`: Kategori buku.
+- `books`: Informasi buku, termasuk relasi ke penulis dan kategori.
+- `ratings`: Rating yang diberikan pengguna untuk buku.
+- `book_category`: Tabel pivot untuk relasi many-to-many antara buku dan kategori.
 
-## License
+Untuk detail skema database yang lebih visual, Anda dapat merujuk pada diagram ERD yang disediakan dalam dokumen `Rancangan_Aplikasi_Timedoor.pdf`.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-"# Timedoor-Backend" 
+Jika Anda memiliki file gambar ERD (misalnya `erd.png`), Anda dapat menambahkannya ke direktori proyek dan merujuknya di sini:
+
+```markdown
+![Entity Relationship Diagram](D:\laragon\www\timedoor-backend\ERD.png)
+```
+
+## Instalasi dan Setup
+
+Ikuti langkah-langkah berikut untuk menginstal dan menjalankan aplikasi:
+
+1. **Clone Repository:**
+
+   ```bash
+   git clone https://github.com/adptra01/Timedoor-Backend.git
+   cd timedoor-backend
+   ```
+2. **Instal Dependensi Composer:**
+
+   ```bash
+   composer install
+   ```
+3. **Konfigurasi Environment:**
+
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+   Edit file `.env` dan konfigurasikan koneksi database Anda (misalnya untuk MySQL).
+4. **Migrasi Database dan Seeding Data (Penting!):
+   Aplikasi ini menggunakan seeder yang dioptimalkan untuk data dalam jumlah besar (100.000 buku, 500.000 rating, dll.).
+
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+
+   Perintah ini akan menghapus semua tabel, menjalankan migrasi, dan mengisi database dengan data dummy yang banyak. Pastikan `DatabaseSeeder.php` Anda memanggil semua seeder dalam urutan yang benar.
+5. **Jalankan Aplikasi:**
+
+   ```bash
+   php artisan serve
+   ```
+
+   Aplikasi akan berjalan di `http://127.0.0.1:8000` (atau port lain yang ditentukan).
+
+## Laravel Telescope
+
+Aplikasi ini terintegrasi dengan Laravel Telescope untuk membantu debugging dan pemantauan aplikasi.
+
+Setelah instalasi, Anda dapat mengakses dashboard Telescope di:
+
+```
+http://127.0.0.1:8000/telescope
+```
+
+Pastikan Anda telah menjalankan migrasi Telescope jika belum:
+
+```bash
+php artisan telescope:install
+php artisan migrate
+```
+
+## Dokumentasi API (Laravel Scramble)
+
+Aplikasi ini menggunakan Laravel Scramble untuk secara otomatis menghasilkan dan menyajikan dokumentasi API berdasarkan kode sumber Anda. Anda dapat mengakses dokumentasi API interaktif di:
+
+```
+http://127.0.0.1:8000/docs/api
+```
+
+Dokumentasi ini akan menampilkan semua endpoint API, parameter, dan respons yang tersedia.
+
+## Penggunaan API (Contoh)
+
+Beberapa endpoint API utama yang mungkin tersedia:
+
+- `GET /api/v1/books`
+- `GET /api/v1/books/{id}`
+- `GET /api/v1/authors`
+- `GET /api/v1/authors/top` (untuk 10 penulis teratas)
+- `POST /api/v1/ratings`
+
+(Detail endpoint dan request/response dapat ditemukan di dokumentasi API atau kode sumber.)
