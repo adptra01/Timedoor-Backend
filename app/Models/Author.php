@@ -37,8 +37,8 @@ final class Author extends Model
         'bio' => 'string',
     ];
 
-    public function books()
+    public function books(): HasMany
     {
-        // return $this->hasMany(Book::class);
+        return $this->hasMany(Book::class);
     }
 }

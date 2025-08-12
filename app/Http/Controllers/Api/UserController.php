@@ -32,9 +32,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): UserResource
     {
-        $validated = $request->validated();
-
-        $user = User::create($validated);
+        $user = User::create($request->validated());
 
         return new UserResource($user);
     }
@@ -56,9 +54,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user): UserResource
     {
-        $validated = $request->validated();
 
-        $user->update($validated);
+        $user->update($request->validated());
 
         return new UserResource($user);
     }

@@ -45,9 +45,9 @@ class AuthorController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Author::paginate(10);
+        $authors = Author::paginate(10);
 
-        return AuthorResource::collection($models);
+        return AuthorResource::collection($authors);
     }
 
     /**
@@ -57,9 +57,9 @@ class AuthorController extends Controller
      */
     public function store(StoreAuthorRequest $request): AuthorResource
     {
-        $model = Author::create($request->validated());
+        $author = Author::create($request->validated());
 
-        return new AuthorResource($model);
+        return new AuthorResource($author);
     }
 
     /**
@@ -67,9 +67,9 @@ class AuthorController extends Controller
      *
      * Mengambil detail penulis tertentu berdasarkan ID.
      */
-    public function show(Author $model): AuthorResource
+    public function show(Author $author): AuthorResource
     {
-        return new AuthorResource($model);
+        return new AuthorResource($author);
     }
 
     /**
@@ -77,11 +77,11 @@ class AuthorController extends Controller
      *
      * Memperbarui detail penulis tertentu berdasarkan ID.
      */
-    public function update(UpdateAuthorRequest $request, Author $model): AuthorResource
+    public function update(UpdateAuthorRequest $request, Author $author): AuthorResource
     {
-        $model->update($request->validated());
+        $author->update($request->validated());
 
-        return new AuthorResource($model);
+        return new AuthorResource($author);
     }
 
     /**
@@ -89,9 +89,9 @@ class AuthorController extends Controller
      *
      * Menghapus penulis tertentu berdasarkan ID.
      */
-    public function destroy(Author $model): \Illuminate\Http\Response
+    public function destroy(Author $author): \Illuminate\Http\Response
     {
-        $model->delete();
+        $author->delete();
 
         return response()->noContent();
     }

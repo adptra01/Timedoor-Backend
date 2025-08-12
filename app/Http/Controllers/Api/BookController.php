@@ -24,9 +24,9 @@ class BookController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Book::paginate(10);
+        $books = Book::paginate(10);
 
-        return BookResource::collection($models);
+        return BookResource::collection($books);
     }
 
     /**
@@ -36,9 +36,9 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request): BookResource
     {
-        $model = Book::create($request->validated());
+        $book = Book::create($request->validated());
 
-        return new BookResource($model);
+        return new BookResource($book);
     }
 
     /**
@@ -46,9 +46,9 @@ class BookController extends Controller
      *
      * Mengambil detail buku tertentu berdasarkan ID.
      */
-    public function show(Book $model): BookResource
+    public function show(Book $book): BookResource
     {
-        return new BookResource($model);
+        return new BookResource($book);
     }
 
     /**
@@ -56,11 +56,11 @@ class BookController extends Controller
      *
      * Memperbarui detail buku tertentu berdasarkan ID.
      */
-    public function update(UpdateBookRequest $request, Book $model): BookResource
+    public function update(UpdateBookRequest $request, Book $book): BookResource
     {
-        $model->update($request->validated());
+        $book->update($request->validated());
 
-        return new BookResource($model);
+        return new BookResource($book);
     }
 
     /**
@@ -68,9 +68,9 @@ class BookController extends Controller
      *
      * Menghapus buku tertentu berdasarkan ID.
      */
-    public function destroy(Book $model): \Illuminate\Http\Response
+    public function destroy(Book $book): \Illuminate\Http\Response
     {
-        $model->delete();
+        $book->delete();
 
         return response()->noContent();
     }

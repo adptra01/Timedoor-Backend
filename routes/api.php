@@ -15,6 +15,7 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
 
+    Route::get('authors/top', [AuthorController::class, 'top']);
     Route::apiResource('users', UserController::class);
     Route::apiResource('authors', AuthorController::class);
     Route::apiResource('ratings', RatingController::class);
@@ -22,5 +23,3 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('books', BookController::class);
     Route::apiResource('book-categories', BookCategoryController::class);
 });
-
-Route::get('authors/top', [AuthorController::class, 'top']);

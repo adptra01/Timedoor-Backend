@@ -29,7 +29,7 @@ return [
         /*
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
-        'description' => '',
+        'description' => 'Dokumentasi API Timedoor Backend. Sistem ini menyediakan layanan manajemen buku, kategori, penulis, rating, dan pengguna. Silakan gunakan endpoint yang tersedia sesuai kebutuhan aplikasi Anda.',
     ],
 
     /*
@@ -39,7 +39,7 @@ return [
         /*
          * Define the title of the documentation's website. App name is used when this config is `null`.
          */
-        'title' => null,
+        'title' => 'Dokumentasi API Timedoor Backend',
 
         /*
          * Define the theme of the documentation. Available options are `light` and `dark`.
@@ -89,7 +89,9 @@ return [
      * ],
      * ```
      */
-    'servers' => null,
+    'servers' => [
+        'url' => 'http://127.0.0.1:8000/api',
+    ],
 
     /**
      * Determines how Scramble stores the descriptions of enum cases.

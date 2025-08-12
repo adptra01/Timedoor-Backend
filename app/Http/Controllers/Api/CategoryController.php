@@ -24,9 +24,9 @@ class CategoryController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Category::paginate(10);
+        $categories = Category::paginate(10);
 
-        return CategoryResource::collection($models);
+        return CategoryResource::collection($categories);
     }
 
     /**
@@ -36,9 +36,9 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request): CategoryResource
     {
-        $model = Category::create($request->validated());
+        $category = Category::create($request->validated());
 
-        return new CategoryResource($model);
+        return new CategoryResource($category);
     }
 
     /**
@@ -46,9 +46,9 @@ class CategoryController extends Controller
      *
      * Mengambil detail kategori tertentu berdasarkan ID.
      */
-    public function show(Category $model): CategoryResource
+    public function show(Category $category): CategoryResource
     {
-        return new CategoryResource($model);
+        return new CategoryResource($category);
     }
 
     /**
@@ -56,11 +56,11 @@ class CategoryController extends Controller
      *
      * Memperbarui detail kategori tertentu berdasarkan ID.
      */
-    public function update(UpdateCategoryRequest $request, Category $model): CategoryResource
+    public function update(UpdateCategoryRequest $request, Category $category): CategoryResource
     {
-        $model->update($request->validated());
+        $category->update($request->validated());
 
-        return new CategoryResource($model);
+        return new CategoryResource($category);
     }
 
     /**
@@ -68,9 +68,9 @@ class CategoryController extends Controller
      *
      * Menghapus kategori tertentu berdasarkan ID.
      */
-    public function destroy(Category $model): \Illuminate\Http\Response
+    public function destroy(Category $category): \Illuminate\Http\Response
     {
-        $model->delete();
+        $category->delete();
 
         return response()->noContent();
     }

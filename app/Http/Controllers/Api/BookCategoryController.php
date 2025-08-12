@@ -24,9 +24,9 @@ class BookCategoryController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = BookCategory::paginate(10);
+        $bookCategories = BookCategory::paginate(10);
 
-        return BookCategoryResource::collection($models);
+        return BookCategoryResource::collection($bookCategories);
     }
 
     /**
@@ -36,9 +36,9 @@ class BookCategoryController extends Controller
      */
     public function store(StoreBookCategoryRequest $request): BookCategoryResource
     {
-        $model = BookCategory::create($request->validated());
+        $bookCategory = BookCategory::create($request->validated());
 
-        return new BookCategoryResource($model);
+        return new BookCategoryResource($bookCategory);
     }
 
     /**
@@ -46,9 +46,9 @@ class BookCategoryController extends Controller
      *
      * Mengambil detail kategori buku tertentu berdasarkan ID.
      */
-    public function show(BookCategory $model): BookCategoryResource
+    public function show(BookCategory $bookCategory): BookCategoryResource
     {
-        return new BookCategoryResource($model);
+        return new BookCategoryResource($bookCategory);
     }
 
     /**
@@ -56,11 +56,11 @@ class BookCategoryController extends Controller
      *
      * Memperbarui detail kategori buku tertentu berdasarkan ID.
      */
-    public function update(UpdateBookCategoryRequest $request, BookCategory $model): BookCategoryResource
+    public function update(UpdateBookCategoryRequest $request, BookCategory $bookCategory): BookCategoryResource
     {
-        $model->update($request->validated());
+        $bookCategory->update($request->validated());
 
-        return new BookCategoryResource($model);
+        return new BookCategoryResource($bookCategory);
     }
 
     /**
@@ -68,9 +68,9 @@ class BookCategoryController extends Controller
      *
      * Menghapus kategori buku tertentu berdasarkan ID.
      */
-    public function destroy(BookCategory $model): \Illuminate\Http\Response
+    public function destroy(BookCategory $bookCategory): \Illuminate\Http\Response
     {
-        $model->delete();
+        $bookCategory->delete();
 
         return response()->noContent();
     }

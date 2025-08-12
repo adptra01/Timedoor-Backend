@@ -24,9 +24,9 @@ class RatingController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $models = Rating::paginate(10);
+        $ratings = Rating::paginate(10);
 
-        return RatingResource::collection($models);
+        return RatingResource::collection($ratings);
     }
 
     /**
@@ -36,9 +36,9 @@ class RatingController extends Controller
      */
     public function store(StoreRatingRequest $request): RatingResource
     {
-        $model = Rating::create($request->validated());
+        $rating = Rating::create($request->validated());
 
-        return new RatingResource($model);
+        return new RatingResource($rating);
     }
 
     /**
@@ -46,9 +46,9 @@ class RatingController extends Controller
      *
      * Mengambil detail rating tertentu berdasarkan ID.
      */
-    public function show(Rating $model): RatingResource
+    public function show(Rating $rating): RatingResource
     {
-        return new RatingResource($model);
+        return new RatingResource($rating);
     }
 
     /**
@@ -56,11 +56,11 @@ class RatingController extends Controller
      *
      * Memperbarui detail rating tertentu berdasarkan ID.
      */
-    public function update(UpdateRatingRequest $request, Rating $model): RatingResource
+    public function update(UpdateRatingRequest $request, Rating $rating): RatingResource
     {
-        $model->update($request->validated());
+        $rating->update($request->validated());
 
-        return new RatingResource($model);
+        return new RatingResource($rating);
     }
 
     /**
@@ -68,9 +68,9 @@ class RatingController extends Controller
      *
      * Menghapus rating tertentu berdasarkan ID.
      */
-    public function destroy(Rating $model): \Illuminate\Http\Response
+    public function destroy(Rating $rating): \Illuminate\Http\Response
     {
-        $model->delete();
+        $rating->delete();
 
         return response()->noContent();
     }
