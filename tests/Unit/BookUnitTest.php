@@ -13,7 +13,16 @@ final class BookUnitTest extends TestCase
     {
         $book = new Book;
 
-        $expected = ['name'];
+        $expected = [
+            'title',
+            'author_id',
+            'description',
+            'published_year',
+            'stock',
+            'price',
+            'avg_rating',
+            'voters_count'
+        ];
 
         $this->assertEquals($expected, $book->getFillable());
     }

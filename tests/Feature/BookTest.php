@@ -15,8 +15,8 @@ final class BookTest extends TestCase
 
         $response = $this->post(route('books.store'), $data);
 
-        $response->assertRedirect();
-        $this->assertDatabaseHas('books', $data);
+        $response->assertCreated();
+        $response->assertJsonFragment($data);
     }
 
     public function test_can_view_book(): void
@@ -26,7 +26,7 @@ final class BookTest extends TestCase
         $response = $this->get(route('books.show', $book));
 
         $response->assertOk();
-        $response->assertViewHas('book', $book);
+        $response->assertJsonFragment($book->toArray());
     }
 
     public function test_can_update_book(): void
@@ -36,7 +36,7 @@ final class BookTest extends TestCase
 
         $response = $this->put(route('books.update', $book), $data);
 
-        $response->assertRedirect();
+        $response->assertOk();
         $this->assertDatabaseHas('books', array_merge(['id' => $book->id], $data));
     }
 
@@ -46,7 +46,7 @@ final class BookTest extends TestCase
 
         $response = $this->delete(route('books.destroy', $book));
 
-        $response->assertRedirect();
+        $response->assertNoContent();
         $this->assertDatabaseMissing('books', ['id' => $book->id]);
     }
 }

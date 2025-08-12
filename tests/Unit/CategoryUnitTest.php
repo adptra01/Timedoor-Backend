@@ -13,7 +13,7 @@ final class CategoryUnitTest extends TestCase
     {
         $category = new Category;
 
-        $expected = ['name'];
+        $expected = ['name', 'description'];
 
         $this->assertEquals($expected, $category->getFillable());
     }

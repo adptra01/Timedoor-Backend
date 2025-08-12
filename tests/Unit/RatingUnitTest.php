@@ -13,7 +13,12 @@ final class RatingUnitTest extends TestCase
     {
         $rating = new Rating;
 
-        $expected = ['name'];
+        $expected = [
+            'book_id',
+            'user_id',
+            'rating',
+            'comment'
+        ];
 
         $this->assertEquals($expected, $rating->getFillable());
     }

@@ -27,7 +27,7 @@ class StoreAuthorRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'bio' => ['required', 'string', 'max:65,535'],
+            'bio' => ['required', 'string', 'max:65535'],
         ];
     }
 }

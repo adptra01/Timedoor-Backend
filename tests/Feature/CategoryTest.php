@@ -15,8 +15,8 @@ final class CategoryTest extends TestCase
 
         $response = $this->post(route('categories.store'), $data);
 
-        $response->assertRedirect();
-        $this->assertDatabaseHas('categories', $data);
+        $response->assertCreated();
+        $response->assertJsonFragment($data);
     }
 
     public function test_can_view_category(): void
@@ -26,7 +26,7 @@ final class CategoryTest extends TestCase
         $response = $this->get(route('categories.show', $category));
 
         $response->assertOk();
-        $response->assertViewHas('category', $category);
+        $response->assertJsonFragment($category->toArray());
     }
 
     public function test_can_update_category(): void
@@ -36,7 +36,7 @@ final class CategoryTest extends TestCase
 
         $response = $this->put(route('categories.update', $category), $data);
 
-        $response->assertRedirect();
+        $response->assertOk();
         $this->assertDatabaseHas('categories', array_merge(['id' => $category->id], $data));
     }
 
@@ -46,7 +46,7 @@ final class CategoryTest extends TestCase
 
         $response = $this->delete(route('categories.destroy', $category));
 
-        $response->assertRedirect();
+        $response->assertNoContent();
         $this->assertDatabaseMissing('categories', ['id' => $category->id]);
     }
 }

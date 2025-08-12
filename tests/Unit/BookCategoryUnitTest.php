@@ -13,7 +13,7 @@ final class BookCategoryUnitTest extends TestCase
     {
         $bookCategory = new BookCategory;
 
-        $expected = ['name'];
+        $expected = ['book_id', 'category_id'];
 
         $this->assertEquals($expected, $bookCategory->getFillable());
     }

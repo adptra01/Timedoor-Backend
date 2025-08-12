@@ -15,8 +15,8 @@ final class RatingTest extends TestCase
 
         $response = $this->post(route('ratings.store'), $data);
 
-        $response->assertRedirect();
-        $this->assertDatabaseHas('ratings', $data);
+        $response->assertCreated();
+        $response->assertJsonFragment($data);
     }
 
     public function test_can_view_rating(): void
@@ -26,7 +26,7 @@ final class RatingTest extends TestCase
         $response = $this->get(route('ratings.show', $rating));
 
         $response->assertOk();
-        $response->assertViewHas('rating', $rating);
+        $response->assertJsonFragment($rating->toArray());
     }
 
     public function test_can_update_rating(): void
@@ -36,7 +36,7 @@ final class RatingTest extends TestCase
 
         $response = $this->put(route('ratings.update', $rating), $data);
 
-        $response->assertRedirect();
+        $response->assertOk();
         $this->assertDatabaseHas('ratings', array_merge(['id' => $rating->id], $data));
     }
 
@@ -46,7 +46,7 @@ final class RatingTest extends TestCase
 
         $response = $this->delete(route('ratings.destroy', $rating));
 
-        $response->assertRedirect();
+        $response->assertNoContent();
         $this->assertDatabaseMissing('ratings', ['id' => $rating->id]);
     }
 }

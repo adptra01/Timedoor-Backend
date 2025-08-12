@@ -15,8 +15,8 @@ final class AuthorTest extends TestCase
 
         $response = $this->post(route('authors.store'), $data);
 
-        $response->assertRedirect();
-        $this->assertDatabaseHas('authors', $data);
+        $response->assertCreated();
+        $response->assertJsonFragment($data);
     }
 
     public function test_can_view_author(): void
@@ -26,7 +26,7 @@ final class AuthorTest extends TestCase
         $response = $this->get(route('authors.show', $author));
 
         $response->assertOk();
-        $response->assertViewHas('author', $author);
+        $response->assertJsonFragment($author->toArray());
     }
 
     public function test_can_update_author(): void
@@ -36,7 +36,7 @@ final class AuthorTest extends TestCase
 
         $response = $this->put(route('authors.update', $author), $data);
 
-        $response->assertRedirect();
+        $response->assertOk();
         $this->assertDatabaseHas('authors', array_merge(['id' => $author->id], $data));
     }
 
@@ -46,7 +46,7 @@ final class AuthorTest extends TestCase
 
         $response = $this->delete(route('authors.destroy', $author));
 
-        $response->assertRedirect();
+        $response->assertNoContent();
         $this->assertDatabaseMissing('authors', ['id' => $author->id]);
     }
 }

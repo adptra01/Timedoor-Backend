@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Models\Author;
+use App\Models\Book;
 use Tests\TestCase;
 
 final class AuthorUnitTest extends TestCase
@@ -13,7 +14,7 @@ final class AuthorUnitTest extends TestCase
     {
         $author = new Author;
 
-        $expected = ['name'];
+        $expected = ['name', 'bio'];
 
         $this->assertEquals($expected, $author->getFillable());
     }
@@ -38,5 +39,14 @@ final class AuthorUnitTest extends TestCase
 
         $this->assertNotNull($author->created_at);
         $this->assertNotNull($author->updated_at);
+    }
+
+    public function test_author_has_books_relation(): void
+    {
+        $author = Author::factory()->create();
+        $book = Book::factory()->create(['author_id' => $author->id]);
+
+        $this->assertTrue($author->books()->exists());
+        $this->assertInstanceOf(Book::class, $author->books->first());
     }
 }
