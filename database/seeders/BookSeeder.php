@@ -9,7 +9,7 @@ class BookSeeder extends Seeder
 {
     public function run(): void
     {
-        Book::factory()->count(500000)->create();
+        Book::factory()->count(100000)->create();
 
         $this->command->info('✅ BookSeeder berhasil dijalankan, 500000 data Book dibuat.');
     }

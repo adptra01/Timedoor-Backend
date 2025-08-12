@@ -21,7 +21,7 @@ final class BookUnitTest extends TestCase
             'stock',
             'price',
             'avg_rating',
-            'voters_count'
+            'voters_count',
         ];
 
         $this->assertEquals($expected, $book->getFillable());

@@ -17,7 +17,7 @@ final class RatingUnitTest extends TestCase
             'book_id',
             'user_id',
             'rating',
-            'comment'
+            'comment',
         ];
 
         $this->assertEquals($expected, $rating->getFillable());
