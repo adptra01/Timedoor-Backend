@@ -54,6 +54,7 @@ class AuthorController extends Controller
             $author->id = (int) $author->id;
             $author->voters = (int) $author->voters;
             $author->avg_author_rating = round((float) $author->avg_author_rating, 1);
+
             return $author;
         });
 

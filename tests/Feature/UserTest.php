@@ -6,9 +6,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-
 use Illuminate\Support\Facades\Schema;
+use Tests\TestCase;
 
 final class UserTest extends TestCase
 {
