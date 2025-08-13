@@ -10,6 +10,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @tag User "Operations about users"
@@ -42,7 +43,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): UserResource
     {
-        $user = User::create($request->validated());
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+        $user = User::create($data);
 
         return new UserResource($user);
     }
@@ -77,8 +80,11 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user): UserResource
     {
-
-        $user->update($request->validated());
+        $data = $request->validated();
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        $user->update($data);
 
         return new UserResource($user);
     }

@@ -35,10 +35,5 @@ class DatabaseSeeder extends Seeder
             RatingSeeder::class,
             BookRatingRecalculatorSeeder::class,
         ]);
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
     }
 }
