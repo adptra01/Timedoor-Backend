@@ -43,8 +43,7 @@ final class AuthorTest extends TestCase
         $response->assertJsonCount(2); // Only Author A and B should appear (rating > 5)
 
         $response->assertJsonStructure([
-            '*', // Each item in the array
-            [
+            '*' => [ // Each item in the array
                 'id',
                 'name',
                 'voters',

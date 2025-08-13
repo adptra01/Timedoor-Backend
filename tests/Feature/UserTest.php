@@ -8,12 +8,18 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+use Illuminate\Support\Facades\Schema;
+
 final class UserTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_can_get_all_users(): void
     {
+        Schema::disableForeignKeyConstraints();
+        User::truncate();
+        Schema::enableForeignKeyConstraints();
+
         User::factory()->count(5)->create();
 
         $response = $this->getJson(route('users.index'));

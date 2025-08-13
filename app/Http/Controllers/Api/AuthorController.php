@@ -49,6 +49,14 @@ class AuthorController extends Controller
             ->limit(10)
             ->get();
 
+        // Cast the types to ensure correct JSON representation
+        $authors = $authors->map(function ($author) {
+            $author->id = (int) $author->id;
+            $author->voters = (int) $author->voters;
+            $author->avg_author_rating = round((float) $author->avg_author_rating, 1);
+            return $author;
+        });
+
         return response()->json($authors);
     }
 

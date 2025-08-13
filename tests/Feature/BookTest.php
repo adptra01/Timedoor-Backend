@@ -12,11 +12,14 @@ final class BookTest extends TestCase
     public function test_can_create_book(): void
     {
         $data = Book::factory()->make()->toArray();
+        // Unset calculated fields
+        unset($data['avg_rating'], $data['voters_count']);
 
         $response = $this->post(route('books.store'), $data);
 
         $response->assertCreated();
         $response->assertJsonFragment($data);
+        $this->assertDatabaseHas('books', $data);
     }
 
     public function test_can_view_book(): void
@@ -33,6 +36,8 @@ final class BookTest extends TestCase
     {
         $book = Book::factory()->create();
         $data = Book::factory()->make()->toArray();
+        // Unset calculated fields
+        unset($data['avg_rating'], $data['voters_count']);
 
         $response = $this->put(route('books.update', $book), $data);
 

@@ -32,7 +32,11 @@ final class BookCategoryTest extends TestCase
     public function test_can_update_book_category(): void
     {
         $bookCategory = BookCategory::factory()->create();
-        $data = BookCategory::factory()->make()->toArray();
+        $newCategory = \App\Models\Category::factory()->create();
+        $data = [
+            'book_id' => $bookCategory->book_id,
+            'category_id' => $newCategory->id,
+        ];
 
         $response = $this->put(route('book-categories.update', $bookCategory), $data);
 

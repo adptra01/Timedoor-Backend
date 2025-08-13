@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
 
-    Route::get('authors/top', [AuthorController::class, 'top']);
+    Route::get('authors/top', [AuthorController::class, 'top'])->name('authors.top');
     Route::apiResource('users', UserController::class);
     Route::apiResource('authors', AuthorController::class);
     Route::apiResource('ratings', RatingController::class);
